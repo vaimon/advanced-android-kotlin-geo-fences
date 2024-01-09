@@ -42,18 +42,18 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
             if (geofencingEvent.hasError()) {
                 val errorMessage = errorMessage(context, geofencingEvent.errorCode)
-                Log.e(TAG, errorMessage)
+                Log.e(LOG_TAG, errorMessage)
                 return
             }
 
             if (geofencingEvent.geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
-                Log.v(TAG, context.getString(R.string.geofence_entered))
+                Log.v(LOG_TAG, context.getString(R.string.geofence_entered))
 
                 val fenceId = when {
                     geofencingEvent.triggeringGeofences.isNotEmpty() ->
                         geofencingEvent.triggeringGeofences[0].requestId
                     else -> {
-                        Log.e(TAG, "No Geofence Trigger Found! Abort mission!")
+                        Log.e(LOG_TAG, "No Geofence Trigger Found! Abort mission!")
                         return
                     }
                 }
@@ -65,7 +65,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
                 // Unknown Geofences aren't helpful to us
                 if ( -1 == foundIndex ) {
-                    Log.e(TAG, "Unknown Geofence: Abort Mission")
+                    Log.e(LOG_TAG, "Unknown Geofence: Abort Mission")
                     return
                 }
 
@@ -82,4 +82,4 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     }
 }
 
-private const val TAG = "GeofenceReceiver"
+const val LOG_TAG = "TreasureApp"

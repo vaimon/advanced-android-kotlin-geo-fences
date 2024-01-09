@@ -128,7 +128,7 @@ class HuntMainActivity : AppCompatActivity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        Log.d(TAG, "onRequestPermissionResult")
+        Log.d(LOG_TAG, "onRequestPermissionResult")
 
         if (
             grantResults.isEmpty() ||
@@ -201,7 +201,7 @@ class HuntMainActivity : AppCompatActivity() {
                     exception.startResolutionForResult(this@HuntMainActivity,
                         REQUEST_TURN_DEVICE_LOCATION_ON)
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.d(TAG, "Error geting location settings resolution: " + sendEx.message)
+                    Log.d(LOG_TAG, "Error getting location settings resolution: " + sendEx.message)
                 }
             } else {
                 Snackbar.make(
@@ -262,7 +262,7 @@ class HuntMainActivity : AppCompatActivity() {
             else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         }
 
-        Log.d(TAG, "Request foreground only location permission")
+        Log.d(LOG_TAG, "Request foreground only location permission")
         ActivityCompat.requestPermissions(
             this@HuntMainActivity,
             permissionsArray,
@@ -325,7 +325,7 @@ class HuntMainActivity : AppCompatActivity() {
                         Toast.makeText(this@HuntMainActivity, R.string.geofences_added,
                             Toast.LENGTH_SHORT)
                             .show()
-                        Log.e("Add Geofence", geofence.requestId)
+                        Log.e(LOG_TAG, "Add request id: ${geofence.requestId}")
                         // Tell the viewmodel that we've reached the end of the game and
                         // activated the last "geofence" --- by removing the Geofence.
                         viewModel.geofenceActivated()
@@ -335,7 +335,7 @@ class HuntMainActivity : AppCompatActivity() {
                         Toast.makeText(this@HuntMainActivity, R.string.geofences_not_added,
                             Toast.LENGTH_SHORT).show()
                         if ((it.message != null)) {
-                            Log.w(TAG, it.message)
+                            Log.w(LOG_TAG, "Geofence add failure: ${it.message}")
                         }
                     }
                 }
@@ -354,13 +354,13 @@ class HuntMainActivity : AppCompatActivity() {
         geofencingClient.removeGeofences(geofencePendingIntent)?.run {
             addOnSuccessListener {
                 // Geofences removed
-                Log.d(TAG, getString(R.string.geofences_removed))
+                Log.d(LOG_TAG, getString(R.string.geofences_removed))
                 Toast.makeText(applicationContext, R.string.geofences_removed, Toast.LENGTH_SHORT)
                     .show()
             }
             addOnFailureListener {
                 // Failed to remove geofences
-                Log.d(TAG, getString(R.string.geofences_not_removed))
+                Log.d(LOG_TAG, getString(R.string.geofences_not_removed))
             }
         }
     }
@@ -373,6 +373,5 @@ class HuntMainActivity : AppCompatActivity() {
 private const val REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE = 33
 private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
-private const val TAG = "HuntMainActivity"
 private const val LOCATION_PERMISSION_INDEX = 0
 private const val BACKGROUND_LOCATION_PERMISSION_INDEX = 1

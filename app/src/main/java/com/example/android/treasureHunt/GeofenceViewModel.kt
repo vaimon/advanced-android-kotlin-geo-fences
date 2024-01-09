@@ -38,12 +38,12 @@ class GeofenceViewModel(state: SavedStateHandle) : ViewModel() {
     val geofenceIndex: LiveData<Int>
         get() = _geofenceIndex
 
-    val geofenceHintResourceId = Transformations.map(geofenceIndex) {
-        val index = geofenceIndex?.value ?: -1
+    val geofenceHint = Transformations.map(geofenceIndex) {
+        val index = geofenceIndex.value ?: -1
         when {
-            index < 0 -> R.string.not_started_hint
+            index < 0 -> ""
             index < GeofencingConstants.NUM_LANDMARKS -> GeofencingConstants.LANDMARK_DATA[geofenceIndex.value!!].hint
-            else -> R.string.geofence_over
+            else -> "You have found the treasure! Congratulations!"
         }
     }
 
